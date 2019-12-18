@@ -2,5 +2,163 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "first-lib": {
+      "projectType": "library",
+      "root": "projects/first-lib",
+      "sourceRoot": "projects/first-lib/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/first-lib/tsconfig.lib.json",
+            "project": "projects/first-lib/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/first-lib/src/test.ts",
+            "tsConfig": "projects/first-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/first-lib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/first-lib/tsconfig.lib.json",
+              "projects/first-lib/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "first-lib-showcase": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/first-lib-showcase",
+      "sourceRoot": "projects/first-lib-showcase/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/first-lib-showcase",
+            "index": "projects/first-lib-showcase/src/index.html",
+            "main": "projects/first-lib-showcase/src/main.ts",
+            "polyfills": "projects/first-lib-showcase/src/polyfills.ts",
+            "tsConfig": "projects/first-lib-showcase/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/first-lib-showcase/src/favicon.ico",
+              "projects/first-lib-showcase/src/assets"
+            ],
+            "styles": [
+              "projects/first-lib-showcase/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/first-lib-showcase/src/environments/environment.ts",
+                  "with": "projects/first-lib-showcase/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "first-lib-showcase:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "first-lib-showcase:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "first-lib-showcase:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/first-lib-showcase/src/test.ts",
+            "polyfills": "projects/first-lib-showcase/src/polyfills.ts",
+            "tsConfig": "projects/first-lib-showcase/tsconfig.spec.json",
+            "karmaConfig": "projects/first-lib-showcase/karma.conf.js",
+            "assets": [
+              "projects/first-lib-showcase/src/favicon.ico",
+              "projects/first-lib-showcase/src/assets"
+            ],
+            "styles": [
+              "projects/first-lib-showcase/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/first-lib-showcase/tsconfig.app.json",
+              "projects/first-lib-showcase/tsconfig.spec.json",
+              "projects/first-lib-showcase/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/first-lib-showcase/e2e/protractor.conf.js",
+            "devServerTarget": "first-lib-showcase:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "first-lib-showcase:serve:production"
+            }
+          }
+        }
+      }
+    }},
+  "defaultProject": "first-lib"
 }
