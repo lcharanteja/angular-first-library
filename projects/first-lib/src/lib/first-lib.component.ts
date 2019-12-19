@@ -5,19 +5,15 @@ import { AlertMessage, FirstLibService } from "./first-lib.service";
 @Component({
   selector: "lib-alert",
   template: `
-    <div
-      class="alert"
-      *ngIf="alertMessage$ | async as alertMessage"
-      [ngStyle]="{ background: alertMessage.color }"
-    >
-      <span class="closebtn" (click)="closeAlert()">&times;</span>
-      <strong>{{ alertMessage.prefix }}!</strong> {{ alertMessage.message }}
-    </div>
+  <div class="alert" *ngIf="alertMessage$ | async as alertMessage" [ngStyle]="{background: alertMessage.color}">
+  <span class="closebtn" (click)="closeAlert()">&times;</span>
+  <strong>{{ alertMessage.prefix }}!</strong> {{ alertMessage.message }}
+</div>
   `,
   styleUrls: []
 })
 export class FirstLibComponent implements OnInit {
-  alertMessage$: Observable<AlertMessage | boolean>;
+  alertMessage$: Observable<AlertMessage>;
   close$ = new Subject<boolean>();
 
   constructor(private alertService: FirstLibService) {}
