@@ -1,28 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { merge, Observable, Subject } from "rxjs";
-import { AlertMessage, FirstLibService } from "./first-lib.service";
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: "lib-alert",
-  template: `
-  <div class="alert" *ngIf="alertMessage$ | async as alertMessage" [ngStyle]="{background: alertMessage.color}">
-  <span class="closebtn" (click)="closeAlert()">&times;</span>
-  <strong>{{ alertMessage.prefix }}!</strong> {{ alertMessage.message }}
-</div>
-  `,
+  selector: 'lib-alert',
+  templateUrl: './first-lib.component.html',
   styleUrls: []
 })
-export class FirstLibComponent implements OnInit {
-  alertMessage$: Observable<AlertMessage>;
-  close$ = new Subject<boolean>();
+export class FirstLibComponent {
 
-  constructor(private alertService: FirstLibService) {}
-
-  ngOnInit() {
-    this.alertMessage$ = merge(this.alertService.alertMessage$, this.close$);
-  }
-
-  closeAlert(): void {
-    this.close$.next();
-  }
 }
